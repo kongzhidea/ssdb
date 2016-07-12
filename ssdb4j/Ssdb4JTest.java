@@ -1,6 +1,7 @@
 package com.kk.ssdb4j;
 
 import com.kk.log4j.ConsoleLogger;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.nutz.ssdb4j.SSDBs;
 import org.nutz.ssdb4j.spi.Response;
@@ -9,10 +10,10 @@ import org.nutz.ssdb4j.spi.SSDB;
 public class Ssdb4JTest {
     private static ConsoleLogger logger = new ConsoleLogger();
 
-    private static String host = "localhost";
+    private static String host = "";
     private static int port = 8888;
     private static int timeout = 3000;//  毫秒
-
+    private static String auth = "Ssdb123qwafdasdfasdf02wersfjsadjfasdflasjdlfjsadfjasfdkasfsa";
     //SSDBs.simple 客户端 未使用连接池
 //        private static SSDB ssdb = SSDBs.simple(host, port, timeout);
     // SSDBs.pool 使用连接池
@@ -27,7 +28,11 @@ public class Ssdb4JTest {
         config.setTestOnBorrow(false); // 从缓存池中分配对象，是否执行PoolableObjectFactory.validateObject方法
         config.setTestOnReturn(false);
         config.setTestWhileIdle(false);
-        ssdb = SSDBs.pool(host, port, timeout, null);
+        if (StringUtils.isBlank(auth)) {
+            ssdb = SSDBs.pool(host, port, timeout, null);
+        } else {
+            ssdb = SSDBs.pool(host, port, timeout, null, auth.getBytes());
+        }
     }
 
     public static void main(String[] args) {
@@ -38,8 +43,9 @@ public class Ssdb4JTest {
         Response resp = ssdb.get("name");
         logger.info("name=" + resp.asString());
 
-//        ssdb.setx("tta", 1, 100);
+        ssdb.setx("tta", 1, 100);
 
+        // key 不存在时候会报错
         logger.info(ssdb.get("tta").asString());
         logger.info(ssdb.ttl("tta").asInt());
     }
