@@ -1,4 +1,4 @@
 # ssdb
-ssdb4j,Ö§³ÖÁ¬½Ó³Ø
+ssdb4j,æ”¯æŒè¿æ¥æ± 
 
-¿ÉÒÔ²Î¿¼RedisCluster ×öÒ»¸ö»ùÓÚzookeeperµÄ SSDBCluster¡£
+å¯ä»¥å‚è€ƒRedisCluster åšä¸€ä¸ªåŸºäºzookeeperçš„ SSDBClusterã€‚
